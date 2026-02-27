@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const initialFriends = [
   {
     id: 118836,
@@ -19,15 +21,31 @@ const initialFriends = [
   },
 ];
 
-console.log(initialFriends);
+// Button Component Reusable
+
+function Button({ children, onClick }) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}{" "}
+    </button>
+  );
+}
 
 function App() {
+  const [showAddFriend, setShowAddFreind] = useState(false);
+
+  function handleToogle() {
+    setShowAddFreind((show) => !show);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
         <FriendList />
-        <FormAddFreind />
-        <Button>Add Friend</Button>
+        {showAddFriend && <FormAddFreind />}
+        <Button onClick={handleToogle}>
+          {showAddFriend ? "Close" : "Add Freind"}
+        </Button>
       </div>
       <FormSplitBill />
     </div>
@@ -73,12 +91,6 @@ function Friend({ friend }) {
       <Button>Select</Button>
     </li>
   );
-}
-
-// Button Component
-
-function Button({ children }) {
-  return <button className="button">{children}</button>;
 }
 
 // Add Friend Form
